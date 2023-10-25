@@ -4,13 +4,18 @@ metadata:
   name: curvefs-sc
 provisioner: csi.curvefs.com
 allowVolumeExpansion: false
-reclaimPolicy: Delete
+reclaimPolicy: Retain
 parameters:
-  mdsAddr: ""
-  fsType: ""
-  s3Endpoint: ""
-  s3AccessKey: ""
-  s3SecretKey: ""
-  s3Bucket: ""
-# mountOptions:
-#   - diskCache.diskCacheType=2
+  mdsAddr: "10.182.26.46:6700,10.182.26.35:6700,10.182.26.36:6700"
+  fsType: "s3"
+  s3Endpoint: "10.182.26.46:19005"
+  s3AccessKey: "curve"
+  s3SecretKey: "Netease@2023"
+  s3Bucket: "curvefs"
+mountOptions:
+  - diskCache.diskCacheType=2
+  - diskCache.maxUsableSpaceBytes=1447662884800
+  - s3.throttle.iopsTotalLimit=3500
+  - s3.throttle.iopsReadLimit=3500
+  - s3.throttle.iopsWriteLimit=3500
+  - s3.maxAsyncRequestInflightBytes=1048576000

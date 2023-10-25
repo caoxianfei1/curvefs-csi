@@ -14,8 +14,6 @@ spec:
         app: curvefs-csi-controller
     spec:
       serviceAccount: curvefs-csi-service-account
-      nodeSelector:
-        curvefs-csi-controller: enabled
       containers:
         - name: csi-provisioner
           image: quay.io/k8scsi/csi-provisioner:v1.6.0
@@ -44,7 +42,7 @@ spec:
           # Different back-end curve cluster using different image
           # for v2.4.0-beta2:  curvecsi/curvefscsi:v1.0.1
           # for v2.5.0-beta:  curvecsi/curvefscsi:v1.0.2
-          image: curvecsi/curvefscsi:v1.0.0
+          image: curvecsi/curvefscsi:2.6.0-hotfix-b93e91e
           imagePullPolicy: IfNotPresent
           securityContext:
             privileged: true
@@ -80,6 +78,9 @@ spec:
             - mountPath: /var/lib/kubelet/pods
               mountPropagation: Bidirectional
               name: mountpoint-dir
+            - mountPath: /curvefs/client/logs
+              mountPropagation: Bidirectional
+              name: logs-dir
       volumes:
         - hostPath:
             path: /var/lib/kubelet/plugins/csi.curvefs.com
@@ -89,4 +90,8 @@ spec:
             path: /var/lib/kubelet/pods
             type: Directory
           name: mountpoint-dir
+        - hostPath:
+            path: /data/vmtsdb/csilogs
+            type: DirectoryOrCreate
+          name: logs-dir
 
