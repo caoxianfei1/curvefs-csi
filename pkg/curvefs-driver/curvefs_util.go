@@ -125,6 +125,12 @@ func (ct *curvefsTool) validateCommonParams(params map[string]string) error {
 func (ct *curvefsTool) validateCreateFsParams(params map[string]string) error {
 	if fsType, ok := params["fsType"]; ok {
 		ct.toolParams["fsType"] = fsType
+		enableSumInDir, ok := params["enableSumInDir"]
+		if ok {
+			ct.toolParams["enableSumInDir"] = enableSumInDir
+		} else {
+			ct.toolParams["enableSumInDir"] = "0"
+		}
 		if fsType == "s3" {
 			s3Endpoint, ok1 := params["s3Endpoint"]
 			s3AccessKey, ok2 := params["s3AccessKey"]
